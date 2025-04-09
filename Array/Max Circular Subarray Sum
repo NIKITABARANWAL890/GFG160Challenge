@@ -1,0 +1,37 @@
+
+class Solution {
+  public:
+    // arr: input array
+    // Function to find maximum circular subarray sum.
+    int minkadaneHelper(vector<int>&arr){
+        int n=arr.size();
+        int sum=arr[0], minSum = arr[0];
+        for(int i=1; i<n; i++){
+            sum = min(sum+arr[i], arr[i]);
+            minSum =min(sum, minSum);
+        }
+        return minSum;
+    }
+    int maxkadaneHelper(vector<int>&arr, int &totalSum){
+        int n=arr.size();
+        int sum=arr[0], maxSum=arr[0];
+        totalSum=arr[0];
+        for(int i=1; i<n; i++){
+            totalSum+=arr[i];
+            sum = max(sum+arr[i], arr[i]);
+            maxSum = max(sum, maxSum);
+        }
+        return maxSum;
+    }
+    int circularSubarraySum(vector<int> &arr) {
+        // your code here
+        int totalSum=0;
+        int maxSum = maxkadaneHelper(arr, totalSum);
+        int minSum = minkadaneHelper(arr);
+        int circularSum = totalSum-minSum;
+        if(maxSum>0){
+            return max(maxSum, circularSum);
+        }
+        return maxSum;
+    }
+};
